@@ -19,8 +19,11 @@ class CreditService(
         return this.creditRepository.save(credit)
     }
 
+    /**
+     * Buscar usando o Native Queries
+     */
     override fun findAllByCustomer(customerId: Long): List<Credit> {
-       // return this.creditRepository
+       return this.creditRepository.findAllByCustomerId(customerId)
     }
 
     /**
