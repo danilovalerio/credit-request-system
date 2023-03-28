@@ -1,6 +1,7 @@
 package com.projetos.danilo.systemcredit.creditrequestsystem.entity
 
 import jakarta.persistence.*
+import java.math.BigDecimal
 
 /**
  * Essa classe será uma tabela no banco de dados
@@ -16,6 +17,9 @@ data class Customer(
     var cpf: String = "",
     @Column(nullable = false, unique = true)
     var email: String = "",
+    //TODO("Incluir o campo income através do flyway com uma migration")
+    @Column(nullable = false)
+    var income: BigDecimal = BigDecimal.ZERO,
     @Column(nullable = false)
     var password: String = "",
     // Embedded - Integrado address dentro de customer
