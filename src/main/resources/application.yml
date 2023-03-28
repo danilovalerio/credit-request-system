@@ -1,7 +1,11 @@
 # para acessar o banco de dados
 # http://localhost:8080/h2-console
-# coloca URL jdbc:h2:mem disponível no log da aplicação
+# coloca URL jdbc:h2:mem disponivel no log da aplicaÃ§Ã£o
 spring:
+  datasource:
+    url: jdbc:h2:mem:crs_db
+    username: danilo
+    password: 1234
   h2:
     console:
       enabled: true
