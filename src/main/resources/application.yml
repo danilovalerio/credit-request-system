@@ -19,3 +19,7 @@ spring:
       settings:
         trace: false
         web-allow-others: false
+#configura a url da documentacao
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
