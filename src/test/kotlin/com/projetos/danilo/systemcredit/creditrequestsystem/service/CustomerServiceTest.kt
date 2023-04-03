@@ -14,6 +14,7 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import org.springframework.test.context.ActiveProfiles
 import java.math.BigDecimal
+import java.util.*
 
 @ActiveProfiles("test")
 @ExtendWith(MockKExtension::class)
@@ -23,7 +24,7 @@ class CustomerServiceTest {
 
     @Test
     fun `should create customer`(){
-        //given (dado que precisamos receber)
+        //given (dado que precisamos)
         val fakeCustomer = buildCustomer()
 
         //sempre que chamar metodo save com qualquer parametro retorne o fakeCustomer
@@ -47,6 +48,42 @@ class CustomerServiceTest {
          * Verificar se o save está sendo executado somente uma vez
          */
         verify(exactly = 1) { customerRepository.save(fakeCustomer) }
+    }
+
+    @Test
+    fun `should find customer by id`(){
+        //given
+        val fakeId: Long = java.util.Random().nextLong()
+        val fakeCustomer: Customer = buildCustomer(id = fakeId)
+        every { customerRepository.findById(fakeId) } returns Optional.of(fakeCustomer)
+
+        //when
+        val actual: Customer = customerService.findById(fakeId)
+
+        Assertions.assertThat(actual).isNotNull
+        Assertions.assertThat(actual).isSameAs(fakeCustomer)
+        //then
+        /**
+         * Verifica se o findById retorna de fato um customer
+         */
+        Assertions.assertThat(actual).isExactlyInstanceOf(Customer::class.java)
+
+        verify(exactly = 1) { customerRepository.findById(fakeId) }
+    }
+
+    @Test
+    fun `shoul not find customer by invalid id and throw BusinessException`(){
+        //given
+        val fakeId: Long = java.util.Random().nextLong()
+        every { customerRepository.findById(fakeId) } returns Optional.empty()
+
+        //when
+        //then
+        Assertions.assertThatExceptionOfType(RuntimeException::class.java)
+            .isThrownBy { customerService.findById(fakeId) }
+            .withMessage("Id $fakeId not found")
+
+        verify(exactly = 1) { customerRepository.findById(fakeId) }
     }
 
     /**
