@@ -25,6 +25,7 @@ dependencies {
 	implementation 'org.jetbrains.kotlin:kotlin-reflect'
 	implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.0.2'
 	runtimeOnly 'com.h2database:h2'
+	runtimeOnly 'org.postgresql:postgresql'
 	//JUnit já vem com starter-test, assim como o AssertJ, Mockitto
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation 'io.mockk:mockk:1.13.4'
@@ -34,6 +35,12 @@ tasks.withType(KotlinCompile).configureEach {
 	kotlinOptions {
 		freeCompilerArgs = ['-Xjsr305=strict']
 		jvmTarget = '17'
+	}
+}
+
+tasks.jar {
+	manifest {
+		attributes["Main-Class"] = "com/projetos/danilo/systemcredit/creditrequestsystem/CreditRequestSystemApplication.kt"
 	}
 }
 
